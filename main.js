@@ -1,7 +1,7 @@
 $(document).ready(init);
 
 function init() {
-	// getMonthProfit();
+	getMonthProfit();
 	getSalesmanProfit();
 }
 
@@ -44,35 +44,8 @@ function getMonthProfit() {
 			        datasets: [{
 			            label: 'Fatturato',
 			            data: monthProfit,
-			            backgroundColor: [
-			            	'lightskyblue',
-			            	'lightskyblue',
-			            	'lightskyblue',
-			            	'lightskyblue',
-			            	'lightskyblue',
-			            	'lightskyblue',
-			            	'lightskyblue',
-			            	'lightskyblue',
-			            	'lightskyblue',
-			            	'lightskyblue',
-			            	'lightskyblue',
-			            	'lightskyblue',
-			            ],
-			            borderColor: [
-			                'rgba(0, 0, 0, 1)',
-			                'rgba(0, 0, 0, 1)',
-			                'rgba(0, 0, 0, 1)',
-			                'rgba(0, 0, 0, 1)',
-			                'rgba(0, 0, 0, 1)',
-			                'rgba(0, 0, 0, 1)',
-			                'rgba(0, 0, 0, 1)',
-			                'rgba(0, 0, 0, 1)',
-			                'rgba(0, 0, 0, 1)',
-			                'rgba(0, 0, 0, 1)',
-			                'rgba(0, 0, 0, 1)',
-			                'rgba(0, 0, 0, 1)',
-			            ],
-			            borderWidth: 1
+			            borderColor: 'rgba(0, 0, 0, 1)',
+			            lineTension: 0
 			        }]
 			    },
 			    options: {
@@ -144,45 +117,31 @@ function getSalesmanProfit() {
 			// CREO IL GRAFICO
 			//-----------------
 
-			// //Init chart.js
-			// var ctx = document.getElementById('fatturatoPerVenditore').getContext('2d');
+			//Init chart.js
+			var ctx = document.getElementById('fatturatoPerVenditore').getContext('2d');
 
-			// var names = [...salesmans.name];
-			// var profits = [...salesmans.percentage];
-
-			// var myChart = new Chart(ctx, {
-			//     type: 'doughnut',
-			//     data: {
-			//         labels: names,
-			//         datasets: [{
-			//             label: 'Fatturato',
-			//             data: profits,
-			//             backgroundColor: [
-			//             	'lightskyblue',
-			//             	'green',
-			//             	'red',
-			//             	'yellow',
-			//             ],
-			//             borderColor: [
-			//                 'rgba(0, 0, 0, 1)',
-			//                 'rgba(0, 0, 0, 1)',
-			//                 'rgba(0, 0, 0, 1)',
-			//                 'rgba(0, 0, 0, 1)',
-
-			//             ],
-			//             borderWidth: 1
-			//         }]
-			//     },
-			//     options: {
-			//         scales: {
-			//             yAxes: [{
-			//                 ticks: {
-			//                     beginAtZero: true
-			//                 }
-			//             }]
-			//         }
-			//     }
-			// });
+			var myChart = new Chart(ctx, {
+			    type: 'doughnut',
+			    data: {
+			        labels: salesmansName,
+			        datasets: [{
+			            label: 'Fatturato',
+			            data: salesmansPercentage,
+			            backgroundColor: [
+			            	'rgba(255, 147, 79, 1)',
+			            	'rgba(194, 232, 18, 1)',
+			            	'rgba(145, 245, 173, 1)',
+			            	'rgba(191, 203, 194, 1)',
+			            ],
+			            borderColor: [
+			                'rgba(0, 0, 0, 1)',
+			                'rgba(0, 0, 0, 1)',
+			                'rgba(0, 0, 0, 1)',
+			                'rgba(0, 0, 0, 1)',
+			            ]
+			        }]
+			    },
+			});
 		},
 		error: function() {
 			alert("errore");
