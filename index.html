@@ -23,12 +23,43 @@
     </script>
     <!-- IMG: ICON -->
     <link rel="shortcut icon" href="resources/icons/boolean.png">
-    <title></title>
+    <title>Chartbool</title>
   </head>
   <body>
   	<div id="main-container">
-  		<canvas id="fatturatoPerMese" width="500" height="200"></canvas>
-      <canvas id="fatturatoPerVenditore" width="500" height="200"></canvas>
+      <div id="canvas-container">
+        <form>
+          <h3>Aggiungi una vendita</h3>
+          <select id="form-salesman" name="Venditore" required>
+            <option value="" disabled selected hidden>Venditore</option>
+            <!-- aggiunti dinamicamente -->
+          </select>
+          <select id="form-month" name="Mese" required>
+            <option value="" disabled selected hidden>Mese</option>
+              <option value="0">gennaio</option>
+              <option value="1">febbraio</option>
+              <option value="2">marzo</option>
+              <option value="3">aprile</option>
+              <option value="4">maggio</option>
+              <option value="5">giugno</option>
+              <option value="6">luglio</option>
+              <option value="7">agosto</option>
+              <option value="8">settembre</option>
+              <option value="9">ottobre</option>
+              <option value="10">novembre</option>
+              <option value="11">dicembre</option>
+          </select>
+          <input type="number" placeholder="Totale vendita [€]" required>
+          <button>Invia</button>
+        </form>
+        </form>
+        
+
+        <h2>Fatturato totale / mese</h2>
+        <canvas id="fatturatoPerMese" width="500" height="200"></canvas>
+        <h2>Fatturato percentuale per venditore</h2>
+        <canvas id="fatturatoPerVenditore" width="500" height="200"></canvas>
+      </div>
   	</div>
   </body>
 </html>

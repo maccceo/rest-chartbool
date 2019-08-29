@@ -11,5 +11,30 @@
 	width: 100vw;
 	height: 100vh;
 	padding: 50px 25px;
-	overflow: hidden;
+	overflow: auto;
+}
+
+#canvas-container {
+	width: 70vw;
+	margin: 0 auto;
+}
+
+form {
+	margin-bottom: 50px;
+}
+
+canvas {
+	margin-bottom: 70px;
+}
+
+h2 {
+	margin-bottom: 10px;
+}
+
+#fatturatoPerMese {
+
+}
+
+#fatturatoPerVenditore {
+
 }

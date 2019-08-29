@@ -1,10 +1,38 @@
 $(document).ready(init);
 
 function init() {
+	initSelectButtons();
 	getMonthProfit();
 	getSalesmanProfit();
 }
 
+function initSelectButtons() {
+	//prelevo i nomi dei venditori
+	$.ajax({
+		url: "http://157.230.17.132:4004/sales",
+		method: "GET",
+		success: function(data) {
+			var salesman = [];
+			//aggiungo i venditori al mio array (se non già presenti)
+			for(var i in data) {
+				var vendita = data[i];
+				if (salesman.includes(vendita.salesman) == false) {
+					salesman.push(vendita.salesman);
+				}
+			}
+
+			// li aggiungo alle opzioni del selettore
+			var target = $("#form-salesman");
+			for(var i in salesman) {
+				var html = '<option value="' + salesman[i] + '">' + salesman[i] + '</option>';
+				target.append(html);
+			}
+		},
+		error: function() {
+			alert("errore");
+		} 
+	});
+}
 
 function getMonthProfit() {
 	//prendo dati dal server
@@ -154,15 +182,3 @@ function getMonths() {
 	var months = moment.months();
 	return months;
 }
-
-
-
-
-
-// const myArray = [{x:100}, {x:200}, {x:300}];
-
-// myArray.forEach((element, index, array) => {
-//     console.log(element.x); // 100, 200, 300
-//     console.log(index); // 0, 1, 2
-//     console.log(array); // same myArray object 3 times
-// });
