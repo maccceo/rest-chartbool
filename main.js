@@ -100,8 +100,11 @@ function getSalesmanProfit() {
 		success: function(data) {
 			console.log("- DATI RAW -", data);
 
-			//array con oggetti venditori (name + amount)
-			var salesmans = [];
+			//array dei venditori
+			var salesmansName = [];
+			var salesmansAmount = [];
+			var salesmansPercentage = [];
+			var salesmanIndex;
 			//contatore profitto totale
 			var totalProfit = 0;
 
@@ -111,80 +114,75 @@ function getSalesmanProfit() {
 				//aggiorno profitto totale
 				totalProfit += vendita.amount;
 
-				//cerco il nome nel mio array locale
-				var found = false, index;
-				for (var i in salesmans) {
-					if (salesmans[i].name == vendita.salesman) {
-						found = true;
-						index = i;
-					}
+				//indice venditore attualmente iterato (-1 se non trovato)
+				salesmanIndex = salesmansName.indexOf(vendita.salesman);
+
+				//se non avevo in memoria quel venditore lo aggiungo
+				if (salesmanIndex == -1) {
+					salesmansName.push(vendita.salesman);
+					salesmansAmount.push(vendita.amount);
 				}
-				// se non c'è già in elenco lo aggiungo
-				if (found == false) {
-					var newElement = {
-						name: vendita.salesman,
-						amount: vendita.amount
-					}
-					salesmans.push(newElement);
-					console.log(vendita.salesman,"aggiunto");
-				} else {
-					//aggiungo questa vendita
-					salesmans[index].amount += vendita.amount;
+				// altrimenti aggiungo questa vendita a quelle già registrate 
+				else {
+					salesmansAmount[salesmanIndex] += vendita.amount
 				}
-				found = false;
-			}
-			
-			//aggiungo la voce fatturato_del venditore / fatturato_totale
-			for (var i in salesmans) {
-				var percentage = Math.round(salesmans[i].amount / totalProfit * 100);
-				salesmans[i].percentage = percentage;
 			}
 
-			console.log(salesmans);
+			//calcolo la percentuale -> fatturato del venditore / fatturato totale
+			for (var i in salesmansAmount) {
+			    var percentage = Math.round(salesmansAmount[i] / totalProfit * 100);
+			    salesmansPercentage.push(percentage);
+			}
+
+
+			console.log('Nome venditore:',salesmansName);
+			console.log('Vendite [€]:',salesmansAmount);
+			console.log('Percentuale sul totale:',salesmansPercentage);
+
 
 			//-----------------
 			// CREO IL GRAFICO
 			//-----------------
 
-			//Init chart.js
-			var ctx = document.getElementById('fatturatoPerVenditore').getContext('2d');
+			// //Init chart.js
+			// var ctx = document.getElementById('fatturatoPerVenditore').getContext('2d');
 
-			var names = [...salesmans.name];
-			var profits = [...salesmans.percentage];
+			// var names = [...salesmans.name];
+			// var profits = [...salesmans.percentage];
 
-			var myChart = new Chart(ctx, {
-			    type: 'doughnut',
-			    data: {
-			        labels: names,
-			        datasets: [{
-			            label: 'Fatturato',
-			            data: profits,
-			            backgroundColor: [
-			            	'lightskyblue',
-			            	'green',
-			            	'red',
-			            	'yellow',
-			            ],
-			            borderColor: [
-			                'rgba(0, 0, 0, 1)',
-			                'rgba(0, 0, 0, 1)',
-			                'rgba(0, 0, 0, 1)',
-			                'rgba(0, 0, 0, 1)',
+			// var myChart = new Chart(ctx, {
+			//     type: 'doughnut',
+			//     data: {
+			//         labels: names,
+			//         datasets: [{
+			//             label: 'Fatturato',
+			//             data: profits,
+			//             backgroundColor: [
+			//             	'lightskyblue',
+			//             	'green',
+			//             	'red',
+			//             	'yellow',
+			//             ],
+			//             borderColor: [
+			//                 'rgba(0, 0, 0, 1)',
+			//                 'rgba(0, 0, 0, 1)',
+			//                 'rgba(0, 0, 0, 1)',
+			//                 'rgba(0, 0, 0, 1)',
 
-			            ],
-			            borderWidth: 1
-			        }]
-			    },
-			    options: {
-			        scales: {
-			            yAxes: [{
-			                ticks: {
-			                    beginAtZero: true
-			                }
-			            }]
-			        }
-			    }
-			});
+			//             ],
+			//             borderWidth: 1
+			//         }]
+			//     },
+			//     options: {
+			//         scales: {
+			//             yAxes: [{
+			//                 ticks: {
+			//                     beginAtZero: true
+			//                 }
+			//             }]
+			//         }
+			//     }
+			// });
 		},
 		error: function() {
 			alert("errore");
