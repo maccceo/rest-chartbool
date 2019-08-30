@@ -3,6 +3,9 @@ $(document).ready(init);
 function init() {
 	initSelectButton();
 	printGraphs();
+
+	//aggiungi vendita
+	$("#newsale-button").click(addSale);
 }
 
 function initSelectButton() {
@@ -21,7 +24,7 @@ function initSelectButton() {
 			}
 
 			// li aggiungo alle opzioni del selettore
-			var target = $("#form-salesman");
+			var target = $("#newsale-salesman");
 			for(var i in salesman) {
 				var html = '<option value="' + salesman[i] + '">' + salesman[i] + '</option>';
 				target.append(html);
@@ -42,6 +45,7 @@ function printGraphs() {
 			//Stampo i grafici
 			printLineGraph(data);
 			printPieGraph(data);
+			console.log("Grafici aggiornati");
 		},
 		error: function() {
 			alert("errore");
@@ -50,6 +54,7 @@ function printGraphs() {
 }
 
 function printLineGraph(data) {
+	console.log(data);
 	// # # GRAFICO COL FATTURATO TOTALE PER MESE
 
 	// array di 12 posizioni in cui sommo via via gli amount delle vendite
@@ -143,7 +148,7 @@ function printPieGraph(data) {
 	var ctx = document.getElementById('fatturatoPerVenditore').getContext('2d');
 
 	var myChart = new Chart(ctx, {
-	    type: 'doughnut',
+	    type: 'pie',
 	    data: {
 	        labels: salesmansName,
 	        datasets: [{
@@ -166,8 +171,46 @@ function printPieGraph(data) {
 	});
 }
 
+function addSale() {
+	//recupero dati vendita
+	var salesman = $("#newsale-salesman").val();
+	var amount = Number($("#newsale-amount").val());
+	var month = $("#newsale-month").val();
+
+	// aggiungo dati sul server
+	$.ajax({
+		url: "http://157.230.17.132:4004/sales",
+		method: "POST",
+		data: {
+			salesman: salesman,
+			amount: amount,
+			date: '01/' + month + '/17'
+		},
+		success: function(data) {
+			//ricarico grafici aggiornati
+			printGraphs();
+		},
+		error: function() {
+			alert("errore");
+		} 
+	});
+}
+
+
 function getMonths() {
 	moment.locale('it');
 	var months = moment.months();
 	return months;
 }
+
+// # # # CHIAMATA RAPIDA PER CANCELLARE ULTIMA AGGIUNTA
+// $.ajax({
+// 	url: "http://157.230.17.132:4004/sales/39",
+// 	method: "DELETE",
+// 	success: function(data) {
+// 		console.log("fatto");
+// 	},
+// 	error: function() {
+// 		console.log("errore");
+// 	} 
+// });

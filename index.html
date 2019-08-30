@@ -28,31 +28,30 @@
   <body>
   	<div id="main-container">
       <div id="canvas-container">
-        <form>
+        <div id="newsale-form">
           <h3>Aggiungi una vendita</h3>
-          <select id="form-salesman" name="Venditore" required>
+          <select id="newsale-salesman" name="Venditore" required>
             <option value="" disabled selected hidden>Venditore</option>
             <!-- aggiunti dinamicamente -->
           </select>
-          <select id="form-month" name="Mese" required>
+          <select id="newsale-month" name="Mese" required>
             <option value="" disabled selected hidden>Mese</option>
-              <option value="0">gennaio</option>
-              <option value="1">febbraio</option>
-              <option value="2">marzo</option>
-              <option value="3">aprile</option>
-              <option value="4">maggio</option>
-              <option value="5">giugno</option>
-              <option value="6">luglio</option>
-              <option value="7">agosto</option>
-              <option value="8">settembre</option>
-              <option value="9">ottobre</option>
-              <option value="10">novembre</option>
-              <option value="11">dicembre</option>
+              <option value="01">gennaio</option>
+              <option value="02">febbraio</option>
+              <option value="03">marzo</option>
+              <option value="04">aprile</option>
+              <option value="05">maggio</option>
+              <option value="06">giugno</option>
+              <option value="07">luglio</option>
+              <option value="08">agosto</option>
+              <option value="09">settembre</option>
+              <option value="10">ottobre</option>
+              <option value="11">novembre</option>
+              <option value="12">dicembre</option>
           </select>
-          <input type="number" placeholder="Totale vendita [€]" required>
-          <button>Invia</button>
-        </form>
-        </form>
+          <input type="number" id="newsale-amount" placeholder="Totale vendita [€]" required>
+          <button id="newsale-button">Invia</button>
+        </div>
         
 
         <h2>Fatturato totale / mese</h2>
