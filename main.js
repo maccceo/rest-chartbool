@@ -45,6 +45,7 @@ function printGraphs() {
 			//Stampo i grafici
 			printLineGraph(data);
 			printPieGraph(data);
+			console.log(data);
 			console.log("Grafici aggiornati");
 		},
 		error: function() {
@@ -54,7 +55,6 @@ function printGraphs() {
 }
 
 function printLineGraph(data) {
-	console.log(data);
 	// # # GRAFICO COL FATTURATO TOTALE PER MESE
 
 	// array di 12 posizioni in cui sommo via via gli amount delle vendite
@@ -67,7 +67,7 @@ function printLineGraph(data) {
 		var month = moment(vendita.date, "DD/MM/YYYY").month();
 
 		//la aggiunfo al contatore del fatturato di quel mese
-		monthProfit[month] += vendita.amount;
+		monthProfit[month] += Number(vendita.amount);
 	}
 
 	// - - - - - - - - 
@@ -118,7 +118,7 @@ function printPieGraph(data) {
 		var vendita = data[i];
 
 		//aggiorno profitto totale
-		totalProfit += vendita.amount;
+		totalProfit += Number(vendita.amount);
 
 		//indice venditore attualmente iterato (-1 se non trovato)
 		salesmanIndex = salesmansName.indexOf(vendita.salesman);
@@ -126,11 +126,11 @@ function printPieGraph(data) {
 		//se non avevo in memoria quel venditore lo aggiungo
 		if (salesmanIndex == -1) {
 			salesmansName.push(vendita.salesman);
-			salesmansAmount.push(vendita.amount);
+			salesmansAmount.push(Number(vendita.amount));
 		}
 		// altrimenti aggiungo questa vendita a quelle già registrate 
 		else {
-			salesmansAmount[salesmanIndex] += vendita.amount
+			salesmansAmount[salesmanIndex] += Number(vendita.amount);
 		}
 	}
 
@@ -174,7 +174,7 @@ function printPieGraph(data) {
 function addSale() {
 	//recupero dati vendita
 	var salesman = $("#newsale-salesman").val();
-	var amount = Number($("#newsale-amount").val());
+	var amount = $("#newsale-amount").val();
 	var month = $("#newsale-month").val();
 
 	// aggiungo dati sul server
