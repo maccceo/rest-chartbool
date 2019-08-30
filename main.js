@@ -45,6 +45,7 @@ function printGraphs() {
 			//Stampo i grafici
 			printLineGraph(data);
 			printPieGraph(data);
+			printBarGraph(data);
 			console.log(data);
 			console.log("Grafici aggiornati");
 		},
@@ -80,7 +81,7 @@ function printLineGraph(data) {
 	//nomi dei mesi
 	var months = getMonths();
 
-	var myChart = new Chart(ctx, {
+	var lineChart = new Chart(ctx, {
 	    type: 'line',
 	    data: {
 	        labels: months,
@@ -147,7 +148,7 @@ function printPieGraph(data) {
 	//Init chart.js
 	var ctx = document.getElementById('fatturatoPerVenditore').getContext('2d');
 
-	var myChart = new Chart(ctx, {
+	var pieChart = new Chart(ctx, {
 	    type: 'pie',
 	    data: {
 	        labels: salesmansName,
@@ -171,6 +172,62 @@ function printPieGraph(data) {
 	});
 }
 
+function printBarGraph(data) {
+	// # # GRAFICO COL FATTURATO PER QUADRIMESTRE
+	
+	// registro le vendite MENSILI
+	var monthProfit = new Array(12).fill(0);
+	for (var i in data) {
+		var vendita = data[i];
+		//+1 al mese di quella vendita
+		var month = moment(vendita.date, "DD/MM/YYYY").month();
+		monthProfit[month]++;
+	}
+
+	// calcolo vendite per quadrimestre
+	var quarter = new Array(4).fill(0);
+	var quarterIndex = 0;
+
+	for (var i in monthProfit) {
+		var thisMonth = monthProfit[i];
+
+		//aumento index se devo passare al quadrimestre dopo
+		if (i%3 == 0 && i != 0) {
+			quarterIndex++;
+		}
+		//aggiungo vendita al quadrimestre
+		quarter[quarterIndex] += thisMonth;
+	}
+
+	// - - - - - - - - 
+	// Creo il grafico
+	// - - - - - - - - 
+
+	// Init chart.js
+	var ctx = document.getElementById('venditePerQuadrimestre').getContext('2d');
+
+	var barChart = new Chart(ctx, {
+	    type: 'bar',
+	    data: {
+	        labels: ["Q1", "Q2", "Q3", "Q4"],
+	        datasets: [{
+	            label: 'Quadrimestri',
+	            data: quarter,
+	            backgroundColor: "steelblue"
+	        }]
+	    },
+	    options: {
+	        scales: {
+	            yAxes: [{
+	                ticks: {
+	                    beginAtZero: true
+	                }
+	            }]
+	        }
+	    }
+	});
+}
+
 function addSale() {
 	//recupero dati vendita
 	var salesman = $("#newsale-salesman").val();
@@ -188,7 +245,10 @@ function addSale() {
 		},
 		success: function(data) {
 			//ricarico grafici aggiornati
-			printGraphs();
+			// printGraphs();
+			window.pieChart.update();
+			window.barChart.update();
+			window.lineChart.update();
 		},
 		error: function() {
 			alert("errore");
