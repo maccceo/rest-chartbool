@@ -245,10 +245,10 @@ function addSale() {
 		},
 		success: function(data) {
 			//ricarico grafici aggiornati
-			// printGraphs();
-			window.pieChart.update();
-			window.barChart.update();
-			window.lineChart.update();
+			printGraphs();
+			// window.pieChart.update();
+			// window.barChart.update();
+			// window.lineChart.update();
 		},
 		error: function() {
 			alert("errore");
